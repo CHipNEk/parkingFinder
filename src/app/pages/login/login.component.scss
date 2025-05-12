@@ -1,0 +1,33 @@
+/* filepath: d:\demo\parking-finder\parking-finder\src\app\pages\login\login.component.scss */
+.login-container {
+    @apply flex justify-center items-center h-screen bg-gradient-to-br from-blue-500 to-blue-700;
+  }
+  
+  .login-box {
+    @apply bg-white p-8 rounded-lg border border-gray-300 shadow-lg w-full max-w-md;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+    &:hover {
+      @apply transform -translate-y-1 shadow-2xl;
+    }
+  }
+  
+  input {
+    @apply border border-gray-300 rounded p-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+  
+  button {
+    @apply text-base font-bold transition-transform duration-200;
+  
+    &:hover {
+      @apply transform scale-105;
+    }
+  }
+  
+  a {
+    @apply text-blue-500 transition-colors duration-300;
+  
+    &:hover {
+      @apply text-blue-700;
+    }
+  }

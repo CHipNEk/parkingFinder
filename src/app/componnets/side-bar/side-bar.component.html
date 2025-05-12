@@ -1,0 +1,61 @@
+<div class="h-full bg-slate-50 w-64 text-black flex flex-col shadow-lg">
+  <!-- Logo -->
+  <div class="p-4 flex items-center border-b bg-white">
+    <span nz-icon nzType="car" nzTheme="outline" class="text-2xl mr-2 mb-[31.5px]"></span>
+    <h1 class="text-xl font-bold bg-white" (click)="onMenuClick('/dashboard')">Parking Finder</h1>
+  </div>
+
+  <!-- Menu -->
+  <ul nz-menu nzMode="inline" nzTheme="light" class="flex-1 border-none bg-white">
+    <li nz-menu-item class="hover:bg-slate-300" (click)="onMenuClick('/dashboard')">
+      <span nz-icon nzType="dashboard" nzTheme="outline"></span>
+      <span>Trang chủ</span>
+    </li>
+
+    <li nz-menu-item class="hover:bg-slate-300" (click)="onMenuClick('/parking-search')">
+      <span nz-icon nzType="search" nzTheme="outline"></span>
+      <span>Tìm bãi đỗ xe</span>
+    </li>
+
+    <li nz-submenu nzTitle="Bản đồ" nzIcon="environment" class="hover:bg-slate-300">
+      <ul>
+        <li nz-menu-item class="hover:bg-slate-300" (click)="onMenuClick('/map')">Xem bản đồ</li>
+        <li nz-menu-item class="hover:bg-slate-300">Chỉ đường</li>
+        <li nz-menu-item class="hover:bg-slate-300">Bãi đỗ gần đây</li>
+      </ul>
+    </li>
+
+    <li nz-menu-item class="hover:bg-slate-300" (click)="onMenuClick('/booking')">
+      <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+      <span>Đặt chỗ</span>
+    </li>
+
+    <li nz-menu-item class="hover:bg-slate-300" (click)="onMenuClick('/parking-history')">
+      <span nz-icon nzType="history" nzTheme="outline"></span>
+      <span>Lịch sử đỗ xe</span>
+    </li>
+
+    <li nz-menu-item class="hover:bg-slate-300" (click)="onMenuClick('/favorites')">
+      <span nz-icon nzType="star" nzTheme="outline"></span>
+      <span>Bãi đỗ yêu thích</span>
+    </li>
+
+    <li nz-menu-item class="hover:bg-slate-300" (click)="onMenuClick('/notifications')">
+      <span nz-icon nzType="notification" nzTheme="outline"></span>
+      <span>Thông báo</span>
+    </li>
+
+    <li nz-menu-item class="hover:bg-slate-300" (click)="onMenuClick('/settings')">
+      <span nz-icon nzType="setting" nzTheme="outline"></span>
+      <span>Cài đặt</span>
+    </li>
+  </ul>
+
+  <!-- Footer -->
+  <div class="mt-auto border-t border-b bg-white p-4 ">
+    <button nz-button nzType="text" class="text-black flex items-center w-full hover:bg-slate-300">
+      <span nz-icon nzType="logout" nzTheme="outline" class="mr-2"></span>
+      <span (click)="logOut()">Đăng xuất</span>
+    </button>
+  </div>
+</div>

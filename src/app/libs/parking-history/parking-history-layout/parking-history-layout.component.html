@@ -1,0 +1,63 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Lịch sử đỗ xe</h1>
+  
+    <!-- Bộ lọc thời gian -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div>
+        <label for="startDate" class="block font-medium mb-2">Từ ngày</label>
+        <input id="startDate" type="date" class="w-full border rounded p-2" #startDate />
+      </div>
+      <div>
+        <label for="endDate" class="block font-medium mb-2">Đến ngày</label>
+        <input id="endDate" type="date" class="w-full border rounded p-2" #endDate />
+      </div>
+      <div class="flex items-end">
+        <button
+          nzSize="large"
+          nz-button
+          nzType="primary"
+          class="w-full"
+          (click)="filterByDate(startDate.value, endDate.value)"
+        >
+          Lọc
+        </button>
+      </div>
+    </div>
+  
+    <!-- Bảng lịch sử đỗ xe -->
+    <nz-table
+      #basicTable
+      [nzBordered]="true"
+      [nzData]="filteredHistory"
+      [nzSize]="'middle'"
+      [nzShowPagination]="false"
+    >
+      <thead>
+        <tr>
+          <th nzWidth="30%">Thời gian</th>
+          <th nzWidth="30%">Bãi đỗ</th>
+          <th nzWidth="20%">Tổng phí</th>
+          <th nzWidth="20%">Trạng thái</th>
+          <th nzWidth="20%">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of filteredHistory">
+          <td>{{ entry.time }}</td>
+          <td>{{ entry.parkingLot }}</td>
+          <td>{{ entry.totalFee | currency:'VND' }}</td>
+          <td>{{ entry.status }}</td>
+          <td>
+            <button
+              nz-button
+              nzType="default"
+              nzSize="small"
+              (click)="toggleFavorite(entry.parkingLot)"
+            >
+              {{ isFavorite(entry.parkingLot) ? '✅ Đã thêm' : '🔖 Thêm vào yêu thích' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>

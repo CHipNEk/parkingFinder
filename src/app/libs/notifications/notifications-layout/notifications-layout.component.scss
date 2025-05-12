@@ -1,0 +1,6 @@
+.notification-container {
+    max-height: 512px; /* Đặt chiều cao tối đa */
+    overflow-y: auto; /* Bật cuộn dọc */
+    border: 1px solid #ddd; /* Thêm border nếu cần */
+    border-radius: 4px; /* Bo góc */
+  }

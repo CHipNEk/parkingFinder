@@ -1,0 +1,94 @@
+<div class="container mx-auto px-4 py-8">
+    <!-- Tiêu đề -->
+    <h1 class="text-2xl font-bold mb-6">Tìm kiếm bãi đỗ xe</h1>
+  
+    <!-- Form tìm kiếm -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <div class="grid grid-cols-4 md:grid-cols-3 gap-4 items-center">
+        <!-- Nhập địa chỉ -->
+        <nz-input-group nzPrefixIcon="search" class="col-span-1">
+          <input nz-input [(ngModel)]="searchQuery" placeholder="Nhập địa chỉ, quận/huyện..." />
+        </nz-input-group>
+  
+        <!-- Lọc theo khoảng cách -->
+        <nz-select [(ngModel)]="selectedDistance" nzPlaceHolder="Khoảng cách" class="w-full">
+          <nz-option nzValue="1" nzLabel="Dưới 1km"></nz-option>
+          <nz-option nzValue="5" nzLabel="Dưới 5km"></nz-option>
+          <nz-option nzValue="10" nzLabel="Dưới 10km"></nz-option>
+        </nz-select>
+  
+        <!-- Lọc theo giá -->
+        <nz-select [(ngModel)]="selectedPrice" nzPlaceHolder="Giá theo giờ" class="w-full">
+          <nz-option nzValue="low" nzLabel="Thấp đến cao"></nz-option>
+          <nz-option nzValue="high" nzLabel="Cao đến thấp"></nz-option>
+        </nz-select>
+
+        <!-- Nút tìm kiếm -->
+        <button nz-button nzType="primary" (click)="searchParking()" class="w-full">Tìm kiếm</button>
+      </div>
+    </div>
+  
+    <!-- Kết quả -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Danh sách bãi đỗ -->
+      <div>
+        <nz-table #basicTable [nzBordered]="true" [nzData]="filteredParkingLots" [nzSize]="'middle'" [nzShowPagination]="false" [nzScroll]="{ y: '390px' }">
+          <thead>
+            <tr>
+              <th nzWidth="25%">Tên bãi đỗ</th>
+              <th nzWidth="16%">Khoảng cách</th>
+              <th nzWidth="16%">Giá theo giờ</th>
+              <th nzWidth="25%">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lot of filteredParkingLots">
+              <td>{{ lot.name }}</td>
+              <td>{{ lot.distance }} km</td>
+              <td>{{ lot.price | currency:'VND' }}</td>
+              <td>
+                <button nz-button nzType="primary" nzSize="small" (click)="bookParking(lot)">Đặt chỗ</button>
+                <button nz-button nzType="default" nzSize="small" (click)="viewDetails(lot)">Xem chi tiết</button>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <nz-modal
+          [(nzVisible)]="isModalVisible"
+          [nzTitle]="'Chi tiết bãi đỗ: ' + (selectedLot?.name || '')"
+          (nzOnCancel)="closeModal()"
+          [nzFooter]="null"
+        >
+          <ng-container *nzModalContent>
+            <div *ngIf="selectedLot">
+              <p><b>Khoảng cách:</b> {{ selectedLot.distance }} km</p>
+              <p><b>Giá theo giờ:</b> {{ selectedLot.price | currency:'VND' }}</p>
+              <p><b>Vị trí:</b> ({{ selectedLot.lat }}, {{ selectedLot.lng }})</p>
+            </div>
+            <div class="mt-4 flex justify-end" *ngIf="selectedLot">
+              <button
+                nz-button
+                nzType="default"
+                (click)="toggleFavorite(selectedLot)"
+              >
+                {{ isFavorite(selectedLot) ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích' }}
+              </button>
+              <button
+                nz-button
+                nzType="primary"
+                class="ml-2"
+                (click)="bookParking(selectedLot)"
+              >
+                Đặt chỗ
+              </button>
+            </div>
+          </ng-container>
+        </nz-modal>
+      </div>
+  
+      <!-- Bản đồ -->
+      <div class="h-96 bg-gray-200 rounded-lg shadow-md" style="height: 435px;">
+        <div id="map" class="h-full w-full"></div>
+      </div>
+    </div>
+  </div>

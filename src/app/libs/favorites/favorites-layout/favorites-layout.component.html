@@ -1,0 +1,40 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Danh sách yêu thích</h1>
+  
+    <div *ngIf="favoritesList.length === 0">
+      <p>Không có bãi đỗ nào trong danh sách yêu thích.</p>
+    </div>
+  
+    <nz-table
+      *ngIf="favoritesList.length > 0"
+      [nzBordered]="true"
+      [nzData]="favoritesList"
+      [nzSize]="'middle'"
+      [nzShowPagination]="false"
+      [nzScroll]="{ y: '300px' }"
+    >
+      <thead>
+        <tr>
+          <th nzWidth="30%">Tên bãi đỗ</th>
+          <th nzWidth="20%">Khoảng cách</th>
+          <th nzWidth="20%">Giá theo giờ</th>
+          <th nzWidth="30%">Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let favorite of favoritesList">
+          <td>{{ favorite.name }}</td>
+          <td>{{ favorite.distance }} km</td>
+          <td>{{ favorite.price | currency:'VND' }}</td>
+          <td class="flex justify-evenly">
+            <button nz-button nzType="primary" nzSize="small" (click)="bookParking(favorite)">
+              Đặt chỗ
+            </button>
+            <button nz-button nzType="default" nzSize="small" (click)="removeFromFavorites(favorite.id)">
+              Xóa
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>

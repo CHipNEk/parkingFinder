@@ -1,0 +1,78 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Đặt chỗ bãi đỗ xe</h1>
+  
+    <!-- Form đặt chỗ -->
+    <form [formGroup]="bookingForm" (ngSubmit)="submitBooking()" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Bãi đỗ -->
+      <div>
+        <label for="parkingLot" class="block font-medium mb-2">Bãi đỗ xe</label>
+        <nz-select id="parkingLot" formControlName="parkingLot" nzPlaceHolder="Chọn bãi đỗ" class="w-full" nzSize="large">
+          <nz-option *ngFor="let lot of parkingLots" [nzValue]="lot.id" [nzLabel]="lot.name"></nz-option>
+        </nz-select>
+        <div *ngIf="bookingForm.get('parkingLot')?.invalid && bookingForm.get('parkingLot')?.touched" class="text-red-500">
+          Vui lòng chọn bãi đỗ xe.
+        </div>
+      </div>
+  
+      <!-- Biển số xe -->
+      <div>
+        <label for="licensePlate" class="block font-medium mb-2">Biển số xe</label>
+        <input nz-input id="licensePlate" type="text" formControlName="licensePlate" class="w-full border rounded p-2" placeholder="VD: 30A-12345" />
+        <div *ngIf="bookingForm.get('licensePlate')?.invalid && bookingForm.get('licensePlate')?.touched" class="text-red-500">
+          Vui lòng nhập biển số xe hợp lệ.
+        </div>
+      </div>
+  
+      <!-- Ngày, giờ đến -->
+      <div>
+        <label for="arrivalDate" class="block font-medium mb-2">Ngày đến</label>
+        <input nz-input id="arrivalDate" type="date" formControlName="arrivalDate" class="w-full border rounded p-2" />
+        <label for="arrivalTime" class="block font-medium mb-2 mt-4">Giờ đến</label>
+        <input nz-input id="arrivalTime" type="time" formControlName="arrivalTime" class="w-full border rounded p-2" />
+      </div>
+  
+      <!-- Ngày, giờ đi -->
+      <div>
+        <label for="departureDate" class="block font-medium mb-2">Ngày đi</label>
+        <input nz-input id="departureDate" type="date" formControlName="departureDate" class="w-full border rounded p-2" />
+        <label for="departureTime" class="block font-medium mb-2 mt-4">Giờ đi</label>
+        <input nz-input id="departureTime" type="time" formControlName="departureTime" class="w-full border rounded p-2" />
+      </div>
+  
+      <!-- Tính phí tạm tính -->
+      <div class="col-span-2 flex justify-center">
+        <button type="button" nz-button nzType="default" (click)="calculateFee()" class="w-1/2">Tính phí tạm tính</button>
+      </div>
+      <p *ngIf="estimatedFee !== null" class="text-center mt-2 flex justify-center items-center">
+        Phí tạm tính: {{ estimatedFee | currency:'VND' }}
+      </p>
+  
+      <!-- Gửi đặt chỗ -->
+      <div class="col-span-2 flex justify-center">
+        <button type="submit" nz-button nzType="primary" class="w-1/2">Gửi đặt chỗ</button>
+      </div>
+    </form>
+  
+    <!-- Danh sách đặt chỗ -->
+    <h2 class="text-xl font-bold mt-8">Danh sách đặt chỗ</h2>
+    <nz-table #basicTable [nzBordered]="true" [nzData]="bookingList" [nzSize]="'middle'" [nzShowPagination]="false" [nzScroll]="{ y: '140px' }">
+    <thead>
+        <tr>
+        <th nzWidth="20%">Bãi đỗ xe</th>
+        <th nzWidth="20%">Biển số xe</th>
+        <th nzWidth="20%">Ngày, giờ đến</th>
+        <th nzWidth="20%">Ngày, giờ đi</th>
+        <th nzWidth="20%">Phí tạm tính</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let booking of bookingList">
+        <td>{{ booking.parkingLot }}</td>
+        <td>{{ booking.licensePlate }}</td>
+        <td>{{ booking.arrivalDate }} {{ booking.arrivalTime }}</td>
+        <td>{{ booking.departureDate }} {{ booking.departureTime }}</td>
+        <td>{{ booking.fee | currency:'VND' }}</td>
+        </tr>
+    </tbody>
+    </nz-table>
+  </div>

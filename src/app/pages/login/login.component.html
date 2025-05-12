@@ -1,0 +1,48 @@
+<div class="login-container">
+    <div class="login-box shadow-lg">
+      <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Đăng nhập</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium mb-2 text-gray-700">Email</label>
+          <nz-input-group>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              nz-input
+              class="w-full"
+              placeholder="Nhập email của bạn"
+            />
+          </nz-input-group>
+        </div>
+        <div class="mb-6">
+          <label for="password" class="block text-sm font-medium mb-2 text-gray-700">Mật khẩu</label>
+          <nz-input-group>
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              nz-input
+              class="w-full"
+              placeholder="Nhập mật khẩu của bạn"
+            />
+          </nz-input-group>
+        </div>
+        <button
+          type="submit"
+          nz-button
+          nzType="primary"
+          nzSize="large"
+          class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-300"
+        >
+          Đăng nhập
+        </button>
+      </form>
+      <div class="mt-4 text-center">
+        <p class="text-sm text-gray-600">
+          Bạn chưa có tài khoản?
+          <a routerLink="/register" class="text-blue-500 hover:underline">Đăng ký ngay</a>
+        </p>
+      </div>
+    </div>
+  </div>

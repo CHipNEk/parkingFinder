@@ -1,0 +1,34 @@
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Thông báo</h1>
+  
+    <!-- Nút đánh dấu tất cả đã đọc -->
+    <div class="flex justify-end mb-4">
+      <button nz-button nzType="default" (click)="markAllAsRead()">Đánh dấu tất cả đã đọc</button>
+    </div>
+  
+    <!-- Danh sách thông báo -->
+    <div class="notification-container">
+        <nz-list
+          [nzDataSource]="notifications"
+          [nzRenderItem]="item"
+          [nzBordered]="true"
+        >
+          <ng-template #item let-notification>
+            <nz-list-item [ngClass]="{'bg-gray-100': !notification.read}">
+              <nz-list-item-meta
+                [nzTitle]="notification.message"
+                [nzDescription]="notification.type | titlecase"
+              ></nz-list-item-meta>
+              <button
+                *ngIf="!notification.read"
+                nz-button
+                nzType="link"
+                (click)="markAsRead(notification.id)"
+              >
+                Đánh dấu đã đọc
+              </button>
+            </nz-list-item>
+          </ng-template>
+        </nz-list>
+      </div>
+  </div>

@@ -1,0 +1,7 @@
+#map {
+    height: 100%; /* Chiều cao đầy đủ của container cha */
+    width: 100%; /* Chiều rộng đầy đủ của container cha */
+    border-radius: 0.5rem; /* Bo góc cho bản đồ */
+    overflow: hidden; /* Đảm bảo không có nội dung tràn */
+}
+
