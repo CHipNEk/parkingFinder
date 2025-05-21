@@ -11,10 +11,23 @@ import { Router } from '@angular/router';
 })
 export class SideBarComponent implements OnInit {
   isCollapsed = false;
+  private messageHandler = this.handleMessage.bind(this);
 
   constructor(private router: Router) {}
 
-  ngOnInit(): void {
+   ngOnInit(): void {
+    window.addEventListener('message', this.messageHandler);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('message', this.messageHandler);
+  }
+
+   handleMessage(event: MessageEvent): void {
+    if (event.data.type === 'SHOW_TEXT') {
+      const el = document.getElementById('showText');
+      if (el) el.innerText = event.data.text;
+    }
   }
 
   toggleCollapsed(): void {
@@ -28,4 +41,5 @@ export class SideBarComponent implements OnInit {
   logOut(): void {
     this.router.navigate(['/login']); // Chuyển hướng đến Dashboard
   }
+
 }
