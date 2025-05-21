@@ -1,1 +1,171 @@
-<p>settings-layout works!</p>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Cài đặt</h1>
+  
+    <nz-tabset>
+      <!-- Tab Thông tin cá nhân -->
+      <nz-tab nzTitle="Thông tin cá nhân">
+        <form [formGroup]="personalInfoForm" (ngSubmit)="savePersonalInfo()">
+          <div class="mb-4">
+            <label for="name" class="block text-sm font-medium">Họ và tên</label>
+            <input
+              nz-input
+              id="name"
+              type="text"
+              formControlName="name"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
+          <div class="mb-4">
+            <label for="email" class="block text-sm font-medium">Email</label>
+            <input
+              nz-input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
+          <button nz-button nzType="primary" [disabled]="personalInfoForm.invalid">Lưu</button>
+        </form>
+      </nz-tab>
+  
+      <!-- Tab Đổi mật khẩu -->
+      <nz-tab nzTitle="Đổi mật khẩu">
+        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+          <div class="mb-4">
+            <label for="currentPassword" class="block text-sm font-medium">Mật khẩu hiện tại</label>
+            <input
+              nz-input
+              id="currentPassword"
+              type="password"
+              formControlName="currentPassword"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
+          <div class="mb-4">
+            <label for="newPassword" class="block text-sm font-medium">Mật khẩu mới</label>
+            <input
+              nz-input
+              id="newPassword"
+              type="password"
+              formControlName="newPassword"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
+          <div class="mb-4">
+            <label for="confirmPassword" class="block text-sm font-medium">Xác nhận mật khẩu</label>
+            <input
+              nz-input
+              id="confirmPassword"
+              type="password"
+              formControlName="confirmPassword"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            />
+          </div>
+          <button nz-button nzType="primary" [disabled]="passwordForm.invalid">Đổi mật khẩu</button>
+        </form>
+      </nz-tab>
+  
+      <!-- Tab Bảo mật -->
+      <nz-tab nzTitle="Bảo mật">
+        <div class="mb-4">
+          <label class="block text-sm font-medium">Xác thực 2 bước</label>
+          <nz-switch [(ngModel)]="twoFactorAuthEnabled" (ngModelChange)="toggleTwoFactorAuth()"></nz-switch>
+          <span class="ml-2">{{ twoFactorAuthEnabled ? 'Bật' : 'Tắt' }}</span>
+        </div>
+      </nz-tab>
+  
+      <!-- Tab Thông báo -->
+      <nz-tab nzTitle="Thông báo">
+        <form [formGroup]="notificationSettingsForm" (ngSubmit)="saveNotificationSettings()">
+          <div class="mb-4">
+            <label class="block text-sm font-medium">Đặt chỗ thành công</label>
+            <nz-switch formControlName="bookingSuccess"></nz-switch>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium">Bãi đỗ gần đầy</label>
+            <nz-switch formControlName="parkingFull"></nz-switch>
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium">Khuyến mãi / sự kiện</label>
+            <nz-switch formControlName="promotions"></nz-switch>
+          </div>
+          <button nz-button nzType="primary" [disabled]="notificationSettingsForm.invalid">Lưu</button>
+        </form>
+      </nz-tab>
+  
+      <!-- Tab Giao diện -->
+      <nz-tab nzTitle="Giao diện">
+        <form [formGroup]="displaySettingsForm" (ngSubmit)="saveDisplaySettings()">
+          <div class="mb-4">
+            <label for="theme" class="block text-sm font-medium">Chế độ giao diện</label>
+            <nz-select
+              id="theme"
+              formControlName="theme"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            >
+              <nz-option value="default">Mặc định</nz-option>
+              <nz-option value="senior">Giao diện người lớn tuổi</nz-option>
+              <nz-option value="high-contrast">Màu tương phản cao</nz-option>
+            </nz-select>
+          </div>
+          <div class="mb-4">
+            <label for="fontSize" class="block text-sm font-medium">Kích thước font chữ</label>
+            <nz-input-number
+              id="fontSize"
+              formControlName="fontSize"
+              [nzMin]="12"
+              [nzMax]="24"
+              [nzStep]="1"
+              class="mt-1 block w-full"
+            ></nz-input-number>
+          </div>
+          <button nz-button nzType="primary" [disabled]="displaySettingsForm.invalid">Lưu</button>
+        </form>
+      </nz-tab>
+  
+      <!-- Tab Thiết bị -->
+      <nz-tab nzTitle="Thiết bị">
+        <nz-table [nzData]="devices" [nzBordered]="true" [nzSize]="'middle'">
+          <thead>
+            <tr>
+              <th>Thiết bị</th>
+              <th>IP</th>
+              <th>Trình duyệt</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let device of devices">
+              <td>{{ device.deviceName }}</td>
+              <td>{{ device.ip }}</td>
+              <td>{{ device.browser }}</td>
+              <td>
+                <button nz-button nzType="link" (click)="logoutDevice(device.id)">Đăng xuất</button>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-tab>
+  
+      <!-- Tab Lịch sử thay đổi -->
+      <nz-tab nzTitle="Lịch sử thay đổi">
+        <nz-table [nzData]="accountChanges" [nzBordered]="true" [nzSize]="'middle'">
+          <thead>
+            <tr>
+              <th>Thời gian</th>
+              <th>Hành động</th>
+              <th>Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let change of accountChanges">
+              <td>{{ change.time }}</td>
+              <td>{{ change.action }}</td>
+              <td>{{ change.details }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-tab>
+    </nz-tabset>
+  </div>

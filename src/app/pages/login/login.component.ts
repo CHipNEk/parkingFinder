@@ -31,6 +31,7 @@ export class LoginComponent {
       // Giả lập kiểm tra đăng nhập thành công
       if (email === 'bachh@gmail.com' && password === '123123') {
         alert('Đăng nhập thành công!');
+        localStorage.setItem('userEmail', email);
         this.router.navigate(['/home/dashboard']); // Chuyển hướng đến Dashboard
       } else {
         alert('Email hoặc mật khẩu không đúng!');

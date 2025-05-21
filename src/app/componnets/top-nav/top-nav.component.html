@@ -3,7 +3,9 @@
     <div class=" flex items-center border-b">
         <nz-avatar nzIcon="user" class="mr-3 bg-blue-600"></nz-avatar>
         <div>
-        <div class="font-semibold">Người dùng</div>
+            <div class="font-semibold">
+                {{ userName || 'Người dùng' }}
+            </div>        
         </div>
     </div>
 </div>

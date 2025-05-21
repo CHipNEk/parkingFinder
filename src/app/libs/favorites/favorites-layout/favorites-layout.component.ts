@@ -14,11 +14,25 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 })
 export class FavoritesLayoutComponent implements OnInit {
   favoritesList: ParkingLot[] = []; // Sử dụng kiểu ParkingLot
+  parkingHistory: any[] = [];
+  filteredHistory: any[] = []; // Dữ liệu sau khi filter
 
   constructor(
     private parkingLotService: ParkingLotService,
     private notificationService: NotificationService
-  ) {}
+  ) {
+    const cachedHistory = localStorage.getItem('parkingHistory');
+    if (cachedHistory) {
+      this.parkingHistory = JSON.parse(cachedHistory);
+      this.filteredHistory = [...this.parkingHistory]; // Khởi tạo dữ liệu lọc
+    }
+  
+    // Tải danh sách yêu thích từ localStorage
+    const cachedFavorites = localStorage.getItem('favoritesList');
+    if (cachedFavorites) {
+      this.favoritesList = JSON.parse(cachedFavorites);
+    }
+  }
 
   ngOnInit(): void {
     // Tải danh sách yêu thích từ localStorage

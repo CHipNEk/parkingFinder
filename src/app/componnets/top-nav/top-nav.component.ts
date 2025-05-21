@@ -13,15 +13,34 @@ import { filter } from 'rxjs/operators';
 export class TopNavComponent implements OnInit {
 
   currentTitle: string = 'Trang chủ'; // Tiêu đề mặc định
+  userName: string | null = null; // Tên người dùng
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
- ngOnInit(): void {
-    // Lắng nghe sự thay đổi của route
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.updateTitle();
-      });
+  ngOnInit(): void {
+    // Lấy tên từ localStorage
+    this.userName = localStorage.getItem('userName');
+
+    // Lắng nghe sự thay đổi của localStorage (nếu có)
+    window.addEventListener('storage', this.updateUserName.bind(this));
+
+    // Lắng nghe sự thay đổi của route để cập nhật tiêu đề
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.updateTitle();
+    });
+
+    // Gọi lần đầu khi component khởi tạo
+    this.updateTitle();
+  }
+
+  private updateUserName(): void {
+    this.userName = localStorage.getItem('userName');
+  }
+
+  ngOnDestroy(): void {
+    // Xóa sự kiện lắng nghe khi component bị hủy
+    window.removeEventListener('storage', this.updateUserName.bind(this));
   }
 
   updateTitle(): void {

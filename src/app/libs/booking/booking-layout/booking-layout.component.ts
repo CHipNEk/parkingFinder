@@ -98,6 +98,9 @@ export class BookingLayoutComponent implements OnInit {
   
       // Lưu danh sách đặt chỗ vào localStorage
       this.saveToCache();
+
+      // Lưu vào lịch sử đặt chỗ
+      this.saveToHistory(bookingData);
   
       // Thêm thông báo
       this.notificationService.addNotification(
@@ -113,6 +116,23 @@ export class BookingLayoutComponent implements OnInit {
     } else {
       alert('Vui lòng điền đầy đủ thông tin!');
     }
+  }
+
+  // Lưu thông tin đặt chỗ vào lịch sử
+  private saveToHistory(bookingData: any): void {
+    const cachedHistory = localStorage.getItem('parkingHistory');
+    const parkingHistory = cachedHistory ? JSON.parse(cachedHistory) : [];
+
+    // Thêm thông tin đặt chỗ vào lịch sử
+    parkingHistory.unshift({
+      time: `${bookingData.arrivalDate} ${bookingData.arrivalTime} - ${bookingData.departureDate} ${bookingData.departureTime}`,
+      parkingLot: bookingData.parkingLot,
+      totalFee: bookingData.fee,
+      status: 'Hoàn tất',
+    });
+
+    // Lưu lịch sử vào localStorage
+    localStorage.setItem('parkingHistory', JSON.stringify(parkingHistory));
   }
 
   // Lưu danh sách đặt chỗ vào localStorage
